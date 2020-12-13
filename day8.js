@@ -693,7 +693,8 @@ function day8(input) {
 }
 
 function day8_2(input) {
-    let actions = collectMovements(input);
+    console.log(`could not figure this one out`);
+    /*    let actions = collectMovements(input);
     let index=0;
     
     let accumulator = calcPath();    
@@ -728,7 +729,7 @@ function day8_2(input) {
             }
         }    
         return accumulator;
-    }
+    }*/
 }
 
 day8(input)
