@@ -1,4 +1,3 @@
-console.clear();
 try {
     input = document.getElementsByTagName("pre")[0].innerText;
 } catch (e) {
@@ -21,27 +20,25 @@ function day9(input, windowSize) {
 
 function day9_2(input, magicNumber) {
     let elems = [];
-    let correctCombo=[];
+    let correctCombo = [];
     let j = 0;
-    for(let i=0;i<input.length;i++) {
+    for (let i = 0; i < input.length; i++) {
         for (let j = 0; j < input.length; j++) {
             elems.push(input.slice(i)[j]);
             let sum = elems.reduce((t, e) => t + e);
             if (sum == magicNumber) {
-                correctCombo=elems;
+                correctCombo = elems;
                 break;
-            }
-            else if(sum > magicNumber)
-            {
-                elems=[];
+            } else if (sum > magicNumber) {
+                elems = [];
                 break;
             }
         }
-        if(correctCombo.length)
+        if (correctCombo.length)
             break;
     }
     console.log(correctCombo);
-    let response= Math.min(...correctCombo) + Math.max(...correctCombo);
+    let response = Math.min(...correctCombo) + Math.max(...correctCombo);
     console.log(response);
     return response;
 }
@@ -73,7 +70,7 @@ day9_2(input, 26134589);
 //day9(`35 20 15 25 47 40 62 55 65 95 102 117 150 182 127 219 299 277 309 576`.split(' ').map(e=>parseInt(e)), 5)
 //day9_2(`35 20 15 25 47 40 62 55 65 95 102 117 150 182 127 219 299 277 309 576`.split(' ').map(e => parseInt(e)), 127)
 
-function getLiteralInput(){
+function getLiteralInput() {
     return `44
     17
     23
@@ -1074,5 +1071,5 @@ function getLiteralInput(){
     96847100796205
     102492291737870
     103054528613349`;
-    
+
 }

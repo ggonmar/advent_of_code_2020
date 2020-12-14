@@ -1,6 +1,50 @@
-try{input = document.getElementsByTagName("pre")[0].innerText;}
-catch(e){
-    input=`BFBBFFBRRL
+try {
+    input = document.getElementsByTagName("pre")[0].innerText;
+} catch (e) {
+    input = getLiteralInput();
+}
+input = input.split("\n").filter(e => e.length);
+
+function day5(input) {
+    let seatMap = input.map((e) => {
+            let x = {
+                row: parseInt(e.substr(0, 7)
+                    .replace(/B/g, 1)
+                    .replace(/F/g, 0), 2),
+                column: parseInt(e.substr(7).replace(/R/g, 1).replace(/L/g, 0), 2)
+            };
+            return {...x, id: x.row * 8 + x.column}
+        }
+    );
+    let response = Math.max(...seatMap.map(e => e.id))
+    console.log(response);
+    return response;
+}
+
+function day5_2(input) {
+    let seatMap = input.map((e) => {
+            let x = {
+                row: parseInt(e.substr(0, 7)
+                    .replace(/B/g, 1)
+                    .replace(/F/g, 0), 2),
+                column: parseInt(e.substr(7).replace(/R/g, 1).replace(/L/g, 0), 2)
+            };
+            return {...x, id: x.row * 8 + x.column}
+        }
+    );
+    let listOfIds = seatMap.map(e => e.id);
+    let response = [...Array(Math.max(...listOfIds)).keys()]
+        .filter(e => !listOfIds.includes(e))
+        .filter((e) => listOfIds.includes(e - 1) && listOfIds.includes(e + 1))[0];
+    console.log(response)
+    return response;
+}
+
+day5(input);
+day5_2(input);
+
+function getLiteralInput() {
+    return `BFBBFFBRRL
 BFBFFFFRLL
 FBFBFFBRRR
 FFBBBFBRLL
@@ -896,45 +940,5 @@ FBBBBBBRRR
 BBFBFBFRRL
 BFFBBBBLLL
 FBFFBFBRRR
-FBFFFFBRLR` ;
-
+FBFFFFBRLR`;
 }
-input=input.split("\n").filter(e => e.length);
-
-function day5(input) {
-    let seatMap = input.map((e) => {
-            let x = {
-                row: parseInt(e.substr(0, 7)
-                    .replace(/B/g, 1)
-                    .replace(/F/g, 0), 2),
-                column: parseInt(e.substr(7).replace(/R/g, 1).replace(/L/g, 0), 2)
-            };
-            return {...x, id: x.row * 8 + x.column}
-        }
-    );
-    let response= Math.max(...seatMap.map(e => e.id))
-    console.log(response);
-    return response;
-}
-
-function day5_2(input) {
-    let seatMap = input.map((e) => {
-            let x = {
-                row: parseInt(e.substr(0, 7)
-                    .replace(/B/g, 1)
-                    .replace(/F/g, 0), 2),
-                column: parseInt(e.substr(7).replace(/R/g, 1).replace(/L/g, 0), 2)
-            };
-            return {...x, id: x.row * 8 + x.column}
-        }
-    );
-    let listOfIds = seatMap.map(e => e.id);
-    let response = [...Array(Math.max(...listOfIds)).keys()]
-        .filter(e => !listOfIds.includes(e))
-        .filter((e) => listOfIds.includes(e - 1) && listOfIds.includes(e + 1))[0];
-    console.log(response)
-    return response;
-}
-
-day5(input);
-day5_2(input);

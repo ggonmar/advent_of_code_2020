@@ -1,6 +1,97 @@
-try{input = document.getElementsByTagName("pre")[0].innerText;}
-catch(e) {
-    input = `acc +15
+try {
+    input = document.getElementsByTagName("pre")[0].innerText;
+} catch (e) {
+    input = getLiteralInput();
+}
+input = input.split("\n").filter(e => e.length);
+
+class Action {
+    constructor(line, type, amount) {
+        this.type = line;
+        this.type = type;
+        this.amount = amount;
+        this.visited = false;
+    }
+
+    visit() {
+        this.visited = true;
+    }
+
+    hasBeenVisited() {
+        return this.visited;
+    }
+}
+
+function collectMovements(lines) {
+    return [...lines].map((line, i) => {
+        let [type, amount] = line.split(" ");
+        amount = parseInt(amount);
+
+        return new Action(i, type, amount);
+    });
+}
+
+function day8(input) {
+    let accumulator = 0;
+    let actions = collectMovements(input);
+    let index = 0;
+
+    while (!actions[index].visited) {
+        actions[index].visit();
+        if (actions[index].type == "acc") accumulator += actions[index].amount
+        if (actions[index].type == "jmp") {
+            index += actions[index].amount
+        } else index += 1;
+    }
+    console.log(accumulator);
+    return accumulator;
+}
+
+function day8_2(input) {
+    console.log(`could not figure this one out`);
+    /*    let actions = collectMovements(input);
+    let index=0;
+    
+    let accumulator = calcPath();    
+    console.log(accumulator);
+    return accumulator;
+    
+    function calcPath()
+    {
+        let stayInside = true;
+        let accumulator=0;
+        counter=10;
+        while(!actions[index].visited || stayInside || counter!=0)
+        {
+            counter--;
+            console.log(`Visiting line ${index}/${input.length}: ${input[index]}`)
+            actions[index].visit();
+            if(actions[index].type == "acc"){
+                 accumulator += actions[index].amount
+                 index++;
+            }
+            else if(actions[index].type == "nop") {
+                if(index+actions[index].amount == actions.length)
+                    stayInside = false;
+                else
+                    index++;       
+            }
+            else if(actions[index].type == "jmp") {
+                if(index+1 == actions.length)
+                    stayInside = false;            
+                else
+                     index += actions[index].amount
+            }
+        }    
+        return accumulator;
+    }*/
+}
+
+day8(input)
+day8_2(input)
+
+function getLiteralInput() {
+    return `acc +15
 jmp +461
 acc +6
 nop +445
@@ -648,90 +739,3 @@ acc +16
 acc +34
 jmp +1`;
 }
-input = input.split("\n").filter(e => e.length);
-
-class Action {
-    constructor(line, type, amount) {
-        this.type=line;
-        this.type = type;
-        this.amount = amount;
-        this.visited=false;
-    }
-
-    visit(){
-        this.visited=true;
-    }
-
-    hasBeenVisited(){
-        return this.visited;
-    }
-}
-
-function collectMovements(lines){
-    return [...lines].map((line,i) => {
-        let [type, amount] = line.split(" ");
-        amount = parseInt(amount);
-
-        return new Action(i, type, amount);
-    });
-}
-
-function day8(input) {
-    let accumulator=0;
-    let actions = collectMovements(input);
-    let index=0;
-    
-    while(!actions[index].visited)
-    {
-        actions[index].visit();
-        if(actions[index].type == "acc") accumulator += actions[index].amount
-        if(actions[index].type == "jmp"){ index += actions[index].amount }
-        else index += 1;
-    }
-    console.log(accumulator);
-    return accumulator;
-}
-
-function day8_2(input) {
-    console.log(`could not figure this one out`);
-    /*    let actions = collectMovements(input);
-    let index=0;
-    
-    let accumulator = calcPath();    
-    console.log(accumulator);
-    return accumulator;
-    
-    function calcPath()
-    {
-        let stayInside = true;
-        let accumulator=0;
-        counter=10;
-        while(!actions[index].visited || stayInside || counter!=0)
-        {
-            counter--;
-            console.log(`Visiting line ${index}/${input.length}: ${input[index]}`)
-            actions[index].visit();
-            if(actions[index].type == "acc"){
-                 accumulator += actions[index].amount
-                 index++;
-            }
-            else if(actions[index].type == "nop") {
-                if(index+actions[index].amount == actions.length)
-                    stayInside = false;
-                else
-                    index++;       
-            }
-            else if(actions[index].type == "jmp") {
-                if(index+1 == actions.length)
-                    stayInside = false;            
-                else
-                     index += actions[index].amount
-            }
-        }    
-        return accumulator;
-    }*/
-}
-
-day8(input)
-day8_2(input)
-

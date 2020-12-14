@@ -1,6 +1,69 @@
-try{input = document.getElementsByTagName("pre")[0].innerText;}
-catch(e){
-    input=`eyr:2028 iyr:2016 byr:1995 ecl:oth
+try {
+    input = document.getElementsByTagName("pre")[0].innerText;
+} catch (e) {
+    input = getLiteralInput();
+}
+input = input.split("\n\n").filter(e => e.length);
+
+function day4(input) {
+    let response = input.map(x => {
+        let elements = x.split(/ |\n/g);
+        return [...elements.map(e => {
+            let pair = e.split(':');
+            return {[pair[0]]: pair[1]}
+        })
+        ].reduce((t, e) => Object.assign(t, e), {})
+    }).filter(x => x.byr && x.iyr && x.eyr && x.hgt && x.hcl && x.ecl && x.pid).length;
+
+    console.log(response);
+    return response;
+}
+
+function day4_2(input) {
+    let response = input.map(x => {
+        let elements = x.split(/ |\n/g);
+        return [...elements.map(e => {
+            let pair = e.split(':');
+            return {[pair[0]]: pair[1]}
+        })
+        ].reduce((t, e) => Object.assign(t, e), {})
+    }).filter(x => {
+        try {
+            let byrCheck = x.byr >= 1920 && x.byr <= 2002;
+            let iyrCheck = x.iyr >= 2010 && x.iyr <= 2020;
+            let eyrCheck = x.eyr >= 2020 && x.eyr <= 2030;
+            let [, hgtValue, , hgtType] = x.hgt.match(/((\d)*)(cm|in)/);
+            let hgtCheck;
+            if (hgtType === "cm") hgtCheck = hgtValue >= 150 && hgtValue <= 193;
+            else hgtCheck = hgtValue >= 59 && hgtValue <= 76;
+
+            let hclCheck = x.hcl.match(/#([a-f|0-9]){6}/g);
+
+            let eclCheck = x.ecl.match(/^(amb|blu|brn|gry|grn|hzl|oth)$/g)
+
+            let pidCheck = x.pid.match(/^(\d{9})$/g);
+
+            return byrCheck &&
+                iyrCheck &&
+                eyrCheck &&
+                hgtCheck &&
+                hclCheck &&
+                eclCheck &&
+                pidCheck
+        } catch (e) {
+            return false;
+        }
+    }).length;
+
+    console.log(response);
+    return response;
+}
+
+day4(input);
+day4_2(input);
+
+function getLiteralInput() {
+    return `eyr:2028 iyr:2016 byr:1995 ecl:oth
 pid:543685203 hcl:#c0946f
 hgt:152cm
 cid:252
@@ -1137,64 +1200,6 @@ iyr:2017
 cid:120 eyr:2020 hcl:#733820 ecl:blu pid:458522542 byr:1966
 
 pid:#725759
-hcl:#602927 iyr:2013 byr:2003 eyr:2023 cid:100` ;
+hcl:#602927 iyr:2013 byr:2003 eyr:2023 cid:100`;
 
 }
-input=input.split("\n\n").filter(e => e.length);
-
-function day4(input) {
-    let response =  input.map(x => {
-        let elements = x.split(/ |\n/g);
-        return [...elements.map(e => {
-            let pair = e.split(':');
-            return {[pair[0]]: pair[1]}
-        })
-        ].reduce((t, e) => Object.assign(t, e), {})
-    }).filter(x => x.byr && x.iyr && x.eyr && x.hgt && x.hcl && x.ecl && x.pid).length;
-
-    console.log(response);
-    return response;
-}
-
-function day4_2(input) {
-    let response= input.map(x => {
-        let elements = x.split(/ |\n/g);
-        return [...elements.map(e => {
-            let pair = e.split(':');
-            return {[pair[0]]: pair[1]}
-        })
-        ].reduce((t, e) => Object.assign(t, e), {})
-    }).filter(x => {
-        try {
-            let byrCheck = x.byr >= 1920 && x.byr <= 2002;
-            let iyrCheck = x.iyr >= 2010 && x.iyr <= 2020;
-            let eyrCheck = x.eyr >= 2020 && x.eyr <= 2030;
-            let [, hgtValue, , hgtType] = x.hgt.match(/((\d)*)(cm|in)/);
-            let hgtCheck;
-            if (hgtType === "cm") hgtCheck = hgtValue >= 150 && hgtValue <= 193;
-            else hgtCheck = hgtValue >= 59 && hgtValue <= 76;
-
-            let hclCheck = x.hcl.match(/#([a-f|0-9]){6}/g);
-
-            let eclCheck = x.ecl.match(/^(amb|blu|brn|gry|grn|hzl|oth)$/g)
-
-            let pidCheck = x.pid.match(/^(\d{9})$/g);
-
-            return byrCheck &&
-                iyrCheck &&
-                eyrCheck &&
-                hgtCheck &&
-                hclCheck &&
-                eclCheck &&
-                pidCheck
-        } catch (e) {
-            return false;
-        }
-    }).length;
-
-    console.log(response);
-    return response;
-}
-
-day4(input);
-day4_2(input);

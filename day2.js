@@ -1,6 +1,49 @@
-try{input = document.getElementsByTagName("pre")[0].innerText;}
-catch(e){
-    input=`15-16 f: ffffffffffffffhf
+try {
+    input = document.getElementsByTagName("pre")[0].innerText;
+} catch (e) {
+    input = getLiteralInput();
+}
+input = input.split("\n").filter(e => e.length);
+
+function day2(input) {
+    let response = input.map(e => {
+        return {
+            letter: e.match(/([a-z]):/g)[0].slice(0, -1),
+            str: e.match(/: (.*)/g)[0].slice(2),
+            minReps: parseInt(e.match(/([0-9]*)-/g)[0].slice(0, -1)),
+            maxReps: parseInt(e.match(/-([0-9]*)/g)[0].slice(1))
+        }
+    }).filter(x => {
+        let amount = Array.from(x.str).filter(e => e == x.letter).length
+        return amount >= x.minReps && amount <= x.maxReps
+    }).length
+    console.log(response);
+    return response;
+}
+
+function day2_2(input) {
+    let response = input.map(e => {
+        return {
+            letter: e.match(/([a-z]):/g)[0].slice(0, -1),
+            str: e.match(/: (.*)/g)[0].slice(2),
+            firstPosition: parseInt(e.match(/([0-9]*)-/g)[0].slice(0, -1)) - 1,
+            secondPosition: parseInt(e.match(/-([0-9]*)/g)[0].slice(1)) - 1
+        }
+    }).filter(x => {
+        let amount = 0;
+        amount += x.str[x.firstPosition] == x.letter ? 1 : 0;
+        amount += x.str[x.secondPosition] == x.letter ? 1 : 0;
+        return amount == 1
+    }).length
+    console.log(response);
+    return response;
+}
+
+day2(input);
+day2_2(input);
+
+function getLiteralInput() {
+    return `15-16 f: ffffffffffffffhf
 6-8 b: bbbnvbbb
 6-10 z: zhzzzzfzzzzzzzzzpzz
 9-13 s: dmssskssqsssssf
@@ -999,42 +1042,5 @@ catch(e){
 7-8 c: ccccccgc
 3-8 t: wttlmpdkfkf
 6-7 s: xsvmsds
-6-7 n: jbncncnn` ;
-
+6-7 n: jbncncnn`;
 }
-input=input.split("\n").filter(e=> e.length);
-
-function day2(input) {
-    let response= input.map(e => { return {
-        letter: e.match(/([a-z]):/g)[0].slice(0, -1),
-        str: e.match(/: (.*)/g)[0].slice(2),
-        minReps: parseInt(e.match(/([0-9]*)-/g)[0].slice(0, -1)),
-        maxReps: parseInt(e.match(/-([0-9]*)/g)[0].slice(1))
-    }
-    }).filter( x => {
-        let amount = Array.from(x.str).filter (e => e==x.letter).length
-        return amount >= x.minReps && amount <= x.maxReps
-    }).length
-    console.log(response);
-    return response;
-}
-
-function day2_2(input) {
-    let response = input.map(e => { return {
-        letter: e.match(/([a-z]):/g)[0].slice(0, -1),
-        str: e.match(/: (.*)/g)[0].slice(2),
-        firstPosition: parseInt(e.match(/([0-9]*)-/g)[0].slice(0, -1))-1,
-        secondPosition: parseInt(e.match(/-([0-9]*)/g)[0].slice(1))-1
-    }
-    }).filter( x => {
-        let amount = 0;
-        amount += x.str[x.firstPosition] == x.letter ? 1 : 0 ;
-        amount += x.str[x.secondPosition] == x.letter ? 1 : 0 ;
-        return amount == 1
-    }).length
-    console.log(response);
-    return response;
-}
-
-day2(input);
-day2_2(input);

@@ -1,6 +1,52 @@
-try{input = document.getElementsByTagName("pre")[0].innerText;}
-catch(e){
-    input=`mswxhfpl
+try {
+    input = document.getElementsByTagName("pre")[0].innerText;
+} catch (e) {
+    input = getLiteralInput();
+}
+input = input.split("\n\n").filter(e => e.length).map(e => e.trim());
+
+function day6(input) {
+    let response = input.map(group => {
+        return Array.from(group.replace(/\n/g, '').trim())
+            .reduce((t, e) => {
+                if (!t.includes(e)) t.push(e);
+                return t
+            }, []);
+    }).reduce((t, e) => {
+        return t + e.length
+    }, 0);
+
+    console.log(response);
+    return response;
+}
+
+function day6_2(input) {
+    let uniqueLetters = input.map(group => {
+        let people = group.split('\n');
+        let letters = '';
+
+        let first = people[0];
+        for (let l of first) {
+            let c = people.length;
+            for (let p of people) {
+                if (p.includes(l)) c--;
+                else break;
+            }
+            if (c == 0) letters += l;
+        }
+        return letters;
+    });
+
+    let response = uniqueLetters.reduce((t, e) => t + e.length, 0)
+    console.log(response);
+    return response;
+}
+
+day6(input);
+day6_2(input);
+
+function getLiteralInput() {
+    return `mswxhfpl
 xmhulfp
 jhglrxfvmp
 xtldhmpf
@@ -2100,49 +2146,5 @@ ckzrswqjolgbupmvnfidhta
 
 squmrdowjy
 iusrcmzyodh
-rnlsdmxuyefoz` ;
-
+rnlsdmxuyefoz`;
 }
-input=input.split("\n\n").filter(e => e.length).map(e => e.trim());
-
-function day6(input) {
-    let response = input.map(group => {
-        return Array.from(group.replace(/\n/g, '').trim())
-            .reduce((t, e) => {
-                if (!t.includes(e)) t.push(e);
-                return t
-            }, []);
-    }).reduce((t, e) => {
-        return t + e.length
-    }, 0);
-
-    console.log(response);
-    return response;
-}
-
-function day6_2(input) {
-    let uniqueLetters= input.map(group => {
-        let people = group.split('\n');
-        let letters='';
-
-        let first=people[0];
-        for(let l of first)
-        {
-            let c=people.length;
-            for (let p of people)
-            {
-                if(p.includes(l)) c--;
-                else break;
-            }
-            if(c==0) letters+=l;
-        }
-        return letters;
-    });
-
-    let response = uniqueLetters.reduce((t,e) => t+e.length, 0)
-    console.log(response);
-    return response;
-}
-
-day6(input);
-day6_2(input);

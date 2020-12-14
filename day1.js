@@ -1,6 +1,41 @@
-try{input = document.getElementsByTagName("pre")[0].innerText}
-catch(e){
-    input = `1788
+try {
+    input = document.getElementsByTagName("pre")[0].innerText
+} catch (e) {
+    input = getLiteralInput();
+}
+input = input.split("\n").filter(e => e.length).map(e => parseInt(e));
+
+function day1(input) {
+    for (let v1 = 0; v1 < input.length; v1++) {
+        for (let v2 = v1; v2 < input.length; v2++) {
+            if (input[v1] + input[v2] == 2020) {
+                let result = input[v1] * input[v2];
+                console.log(result)
+                return result;
+            }
+        }
+    }
+}
+
+function day1_2(input) {
+    for (let v1 = 0; v1 < input.length; v1++) {
+        for (let v2 = v1; v2 < input.length; v2++) {
+            for (let v3 = v2; v3 < input.length; v3++) {
+                if (input[v1] + input[v2] + input[v3] == 2020) {
+                    let result = input[v1] * input[v2] * input[v3];
+                    console.log(result);
+                    return result;
+                }
+            }
+        }
+    }
+}
+
+day1(input);
+day1_2(input);
+
+function getLiteralInput() {
+    return `1788
 1627
 1883
 1828
@@ -201,34 +236,3 @@ catch(e){
 1908
 1903`;
 }
-input = input.split("\n").filter(e => e.length).map(e=>parseInt(e));
-
-function day1(input) {
-    for (let v1 = 0; v1 < input.length; v1++) {
-        for (let v2 = v1; v2 < input.length; v2++) {
-            if (input[v1] + input[v2] == 2020)
-            {
-                let result=input[v1] * input[v2];
-                console.log(result)
-                return result;
-            }
-        }
-    }
-}
-
-function day1_2(input) {
-    for (let v1 = 0; v1 < input.length; v1++) {
-        for (let v2 = v1; v2 < input.length; v2++) {
-            for (let v3 = v2; v3 < input.length; v3++) {
-                if (input[v1] + input[v2] + input[v3] == 2020) {
-                    let result = input[v1] * input[v2] * input[v3];
-                    console.log(result);
-                    return result;
-                }
-            }
-        }
-    }
-}
-
-day1(input);
-day1_2(input);

@@ -1,6 +1,94 @@
-try{input = document.getElementsByTagName("pre")[0].innerText;}
-catch(e) {
-    input = `light plum bags contain 1 faded blue bag.
+try {
+    input = document.getElementsByTagName("pre")[0].innerText;
+} catch (e) {
+    input = getLiteralInput();
+}
+input = input.split("\n").filter(e => e.length);
+
+class Rule {
+    constructor(color, content) {
+        this.color = color;
+        this.content = [...content];
+    }
+
+    numberOfBags() {
+        return this.content.reduce((t, e) => {
+            t += e.amount
+        }, 0)
+    }
+}
+
+function collectRules(rules) {
+    return [...rules].map(line => {
+        let content = line.split("contain ")[1];
+        if (content === "no other bags.")
+            content = [];
+        else {
+            content = content.split(',');
+            content = content.map(e => {
+                let [, amount, color] = e.trim().match(/(\d)* (.*) bag/)
+                return {amount: parseInt(amount), color: color}
+            });
+        }
+        return new Rule(line.match(/(.*) bags contain/)[1], content);
+    });
+}
+
+function day7(ruleLines, color) {
+    let allRules = collectRules(ruleLines);
+    let containerHash = {};
+    for (let rule of allRules) {
+        for (let c of rule.content) {
+            if (!containerHash[c.color]) containerHash[c.color] = [rule.color];
+            else containerHash[c.color].push(rule.color);
+        }
+    }
+    let responses = containerHash[color].slice();
+    let newAdditions = [];
+    do {
+        newAdditions = [];
+        for (let c of responses) {
+            if (!containerHash[c]) continue
+            else {
+                for (let n of containerHash[c]) {
+                    if (!responses.includes(n) && !newAdditions.includes(n)) newAdditions.push(n)
+                }
+            }
+        }
+        responses.push(...newAdditions);
+    } while (newAdditions.length != 0);
+
+//    console.log(responses);
+    console.log(responses.length);
+
+    return responses;
+
+}
+
+function day7_2(ruleLines, color) {
+    const allRules = collectRules(ruleLines);
+
+    let start = allRules.find(e => e.color === color);
+
+    function getBagNumber(bag) {
+        if (!bag || !bag.content)
+            return 1;
+        let total = 0
+        for (let b of bag.content) {
+            total += b.amount + b.amount * getBagNumber(allRules.find(e => e.color == b.color))
+        }
+        return total;
+    }
+
+    let t = getBagNumber(start);
+    console.log(t);
+}
+
+day7(input, "shiny gold");
+day7_2(input, "shiny gold");
+
+function getLiteralInput() {
+    return `light plum bags contain 1 faded blue bag.
 muted salmon bags contain 4 faded lavender bags, 4 posh magenta bags.
 wavy gray bags contain 2 dotted teal bags.
 wavy tan bags contain 2 plaid aqua bags.
@@ -595,85 +683,3 @@ vibrant red bags contain 1 dotted indigo bag, 2 faded beige bags, 1 drab tomato 
 striped maroon bags contain 3 plaid aqua bags, 2 dim maroon bags, 4 plaid chartreuse bags.
 pale tan bags contain 5 posh gray bags, 3 wavy violet bags.`;
 }
-input = input.split("\n").filter(e => e.length);
-
-class Rule {
-    constructor(color, content) {
-        this.color = color;
-        this.content = [...content];
-    }
-
-    numberOfBags() {
-        return this.content.reduce((t, e) => {
-            t += e.amount
-        }, 0)
-    }
-}
-
-function collectRules(rules){
-    return [...rules].map(line => {
-        let content = line.split("contain ")[1];
-        if (content === "no other bags.")
-            content = [];
-        else {
-            content = content.split(',');
-            content = content.map(e => {
-                let [, amount, color] = e.trim().match(/(\d)* (.*) bag/)
-                return {amount: parseInt(amount), color: color}
-            });
-        }
-        return new Rule(line.match(/(.*) bags contain/)[1], content);
-    });
-}
-
-function day7(ruleLines, color) {
-    let allRules = collectRules(ruleLines);
-    let containerHash = {};
-    for (let rule of allRules) {
-        for (let c of rule.content) {
-            if (!containerHash[c.color]) containerHash[c.color] = [rule.color];
-            else containerHash[c.color].push(rule.color);
-        }
-    }
-    let responses = containerHash[color].slice();
-    let newAdditions = [];
-    do {
-        newAdditions = [];
-        for (let c of responses) {
-            if (!containerHash[c]) continue
-            else {
-                for (let n of containerHash[c]) {
-                    if (!responses.includes(n) && !newAdditions.includes(n)) newAdditions.push(n)
-                }
-            }
-        }
-        responses.push(...newAdditions);
-    } while (newAdditions.length != 0);
-
-//    console.log(responses);
-    console.log(responses.length);
-
-    return responses;
-
-}
-
-function day7_2(ruleLines, color) {
-    const allRules = collectRules(ruleLines);
-
-    let start = allRules.find(e => e.color === color);
-
-    function getBagNumber(bag) {
-        if (!bag || !bag.content)
-            return 1;
-        let total = 0
-        for (let b of bag.content) {
-            total += b.amount + b.amount * getBagNumber(allRules.find(e => e.color == b.color))
-        }
-        return total;
-    }
-
-    let t = getBagNumber(start);
-    console.log(t);
-}
-day7(input, "shiny gold")
-day7_2(input, "shiny gold")

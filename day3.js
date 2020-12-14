@@ -1,7 +1,53 @@
+try {
+    input = document.getElementsByTagName("pre")[0].innerText;
+} catch (e) {
+    input = getLiteralInput();
+}
+input = input.split("\n").filter(e => e.length);
 
-try{input = document.getElementsByTagName("pre")[0].innerText;}
-catch(e){
-    input=`......#..........##......#.####
+function day3(input) {
+    console.clear();
+    let response = input.reduce((t, x, i) => {
+        let elemIndex = ((i * 3) % (x.length))
+//        console.log(`Row ${i}: ${x}. Found on element ${elemIndex}: ${x.charAt(elemIndex)} -> t: ${t}`);
+        return t += x.charAt(elemIndex) == "#" ? 1 : 0
+    }, 0);
+    console.log(response);
+    return response;
+}
+
+function day3_2(input) {
+    console.clear();
+    let methods = []
+    //1,1
+    methods.push(slideOnMethod(1, 1))
+    //3,1
+    methods.push(slideOnMethod(3, 1))
+    //5,1
+    methods.push(slideOnMethod(5, 1))
+    //7,1
+    methods.push(slideOnMethod(7, 1))
+    //1,2
+    methods.push(slideOnMethod(1, 2))
+    console.log(methods);
+    console.log(methods.reduce((t, e) => t *= e));
+
+    function slideOnMethod(right, down) {
+        return input.filter((e, i) => i % down == 0)
+            .reduce((t, x, i) => {
+                let elemIndex = ((i * right) % (x.length))
+
+//            console.log(`Row ${i}: ${x}. Found on element ${elemIndex}: ${x.charAt(elemIndex)} -> t: ${t}`);
+                return t += x.charAt(elemIndex) == "#" ? 1 : 0
+            }, 0);
+    }
+}
+
+day3(input);
+day3_2(input);
+
+function getLiteralInput() {
+    return `......#..........##......#.####
 .##...###....#.....#...#.#.....
 #..##..#.....#............#.#.#
 ##.#....#####..#....#..#.#.....
@@ -323,48 +369,5 @@ catch(e){
 .#.#....#..#......#..#...###...
 .##...#......##...###...#.#...#
 .......#.#....#............#..#
-.#..##.#.######...#...#......#.` ;
-
+.#..##.#.######...#...#......#.`;
 }
-input=input.split("\n").filter(e=> e.length);
-
-function day3(input){
-    console.clear();
-    let response= input.reduce( (t,x, i) => {
-        let elemIndex = ((i*3)%(x.length))
-//        console.log(`Row ${i}: ${x}. Found on element ${elemIndex}: ${x.charAt(elemIndex)} -> t: ${t}`);
-        return t += x.charAt(elemIndex) == "#" ? 1 : 0
-    }, 0);
-    console.log(response);
-    return response;
-}
-
-function day3_2(input){
-    console.clear();
-    let methods=[]
-    //1,1
-    methods.push(slideOnMethod(1,1))
-    //3,1
-    methods.push(slideOnMethod(3,1))
-    //5,1
-    methods.push(slideOnMethod(5,1))
-    //7,1
-    methods.push(slideOnMethod(7,1))
-    //1,2
-    methods.push(slideOnMethod(1,2))
-    console.log(methods);
-    console.log(methods.reduce((t,e) => t*=e));
-
-    function slideOnMethod(right, down){
-        return input.filter((e,i) => i%down==0)
-            .reduce( (t,x, i) => {
-            let elemIndex = ((i*right)%(x.length))
-
-//            console.log(`Row ${i}: ${x}. Found on element ${elemIndex}: ${x.charAt(elemIndex)} -> t: ${t}`);
-            return t += x.charAt(elemIndex) == "#" ? 1 : 0
-        }, 0);
-    }
-}
-
-day3(input);
-day3_2(input);
