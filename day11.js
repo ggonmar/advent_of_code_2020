@@ -61,66 +61,66 @@ class Spot {
         return str;
     }
 
-    countOnAllDirections(seatMap, debug=false) {
+    countOnAllDirections(seatMap, debug = false) {
         let count = 0;
         let str = `${this.x},${this.y}:`;
         //viewSeatMap(seatMap);
         //TOP
-        str+="\n\tTop: ";
+        str += "\n\tTop: ";
         for (let i = 1; i <= this.x; i++) {
-            let elem=seatMap[this.x-i][this.y];
-            if(analyzeElem(elem)) break;
+            let elem = seatMap[this.x - i][this.y];
+            if (analyzeElem(elem)) break;
         }
         //BOTTOM
-        str+="\n\tBottom: ";
-        for (let i = 1; i<= seatMap.length-this.x-1; i++) {
-            let elem = seatMap[this.x+i][this.y]
-            if(analyzeElem(elem)) break;
+        str += "\n\tBottom: ";
+        for (let i = 1; i <= seatMap.length - this.x - 1; i++) {
+            let elem = seatMap[this.x + i][this.y]
+            if (analyzeElem(elem)) break;
         }
         //LEFT
-        str+="\n\tLeft: ";
+        str += "\n\tLeft: ";
         for (let j = 1; j <= this.y; j++) {
-            let elem=seatMap[this.x][this.y-j]; 
-            if(analyzeElem(elem)) break;
+            let elem = seatMap[this.x][this.y - j];
+            if (analyzeElem(elem)) break;
         }
         //RIGHT
-        str+="\n\tRight: ";
-        for (let j = 1; j < seatMap[0].length-this.y; j++) {
-            let elem = seatMap[this.x][this.y+j];
-            if(analyzeElem(elem)) break;
+        str += "\n\tRight: ";
+        for (let j = 1; j < seatMap[0].length - this.y; j++) {
+            let elem = seatMap[this.x][this.y + j];
+            if (analyzeElem(elem)) break;
         }
         //TOP-LEFT
-        str+="\n\tTop Left: ";
+        str += "\n\tTop Left: ";
         for (let i = 1; i <= Math.min(this.x, this.y); i++) {
-            let elem =seatMap[this.x-i][this.y-i]; 
-            if(analyzeElem(elem)) break;
+            let elem = seatMap[this.x - i][this.y - i];
+            if (analyzeElem(elem)) break;
         }
 
         //BOTTOM-RIGHT
-        str+="\n\tBottom Right: ";
-        for (let i = 1; i < Math.min(seatMap.length-this.x, seatMap[0].length-this.y); i++) {
-            let elem = seatMap[this.x+i][this.y+i];
-            if(analyzeElem(elem)) break;
+        str += "\n\tBottom Right: ";
+        for (let i = 1; i < Math.min(seatMap.length - this.x, seatMap[0].length - this.y); i++) {
+            let elem = seatMap[this.x + i][this.y + i];
+            if (analyzeElem(elem)) break;
         }
 
         //TOP-RIGHT
-        str+="\n\tTop Right: ";
-        for (let i = 1; i <= Math.min(this.x, seatMap[0].length-this.y-1); i++) {
-            let elem = seatMap[this.x-i][this.y+i];
-            if(analyzeElem(elem)) break;
+        str += "\n\tTop Right: ";
+        for (let i = 1; i <= Math.min(this.x, seatMap[0].length - this.y - 1); i++) {
+            let elem = seatMap[this.x - i][this.y + i];
+            if (analyzeElem(elem)) break;
         }
 
         //BOTTOM-LEFT
-        str+="\n\tBottom Left: ";
-        for (let i = 1; i <= Math.min(seatMap.length-this.x-1, this.y); i++) {
-            let elem = seatMap[this.x+i][this.y-i];
-            if(analyzeElem(elem)) break;
+        str += "\n\tBottom Left: ";
+        for (let i = 1; i <= Math.min(seatMap.length - this.x - 1, this.y); i++) {
+            let elem = seatMap[this.x + i][this.y - i];
+            if (analyzeElem(elem)) break;
         }
-        if(debug) console.log(str);
+        if (debug) console.log(str);
         return count;
 
-        function analyzeElem(elem){
-            str+=elem.icon;
+        function analyzeElem(elem) {
+            str += elem.icon;
             if (elem.seat) {
                 if (elem.occupied)
                     count++;
@@ -222,7 +222,7 @@ function day11_2(input) {
     return response;
 }
 
-//day11(input);
+day11(input);
 day11_2(input);
 
 function getLiteralInput() {
