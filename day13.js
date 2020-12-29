@@ -36,12 +36,12 @@ function day13_2(input, start = 0, safelock=1000, silent=true) {
     t = Math.floor(t/buses[0].v)*buses[0].v-buses[0].index;
     let count=0;
     while (!found && safelock > 0) {
-        str=`t=${t} (looped ${count} times.)`+
+        let str=`t=${t} (looped ${count} times.)`+
             `\n\t - Bus ${buses[0].v}: Passing at t+0 (t=${t}, t/${buses[0].v}=${t/buses[0].v})`;
         let valid = true;
         let leapUntilNextBus=0;
         for (let i = 0; i < buses.length; i++) {
-            minutesUntilThisBusPassesAgain=Math.floor(t / buses[i].v)*buses[i].v+buses[i].v-t;
+            let minutesUntilThisBusPassesAgain=Math.floor(t / buses[i].v)*buses[i].v+buses[i].v-t;
             minutesUntilThisBusPassesAgain=minutesUntilThisBusPassesAgain%buses[i].v;
             
             if ( minutesUntilThisBusPassesAgain != buses[i].index) {
